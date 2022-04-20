@@ -96,12 +96,20 @@ for (i in 1:nrow(lhd_pt)) {
 comid_df <- bind_rows(comid_lst)
 fline_df <- bind_rows(fline_lst)
 
+saveRDS(comid_df, "data/lhd/lhd_comid.rds")
+saveRDS(fline_df, "data/lhd/lhd_flowline.rds")
+
+
+
 # Find COMID of furthest downstream LHD on each mainstem 
 start_comid <-
   comid_df %>%
   group_by(levelpathi) %>% 
   filter(hydroseq == min(hydroseq)) %>% 
   ungroup()
+
+# length(unique(comid_df$levelpathi))
+# length(unique(start_comid$origin_comid))
 
 net_lst <- list()
 
@@ -160,7 +168,7 @@ networks <- bind_rows(net_lst)
 mapview(networks) + lhd_pt
 
 # save to data/lhd/
-saveRDS(network, "data/lhd/lhd_nhdplus_networks.rds")
+saveRDS(networks, "data/lhd/lhd_nhdplus_networks.rds")
 
   
 
